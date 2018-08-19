@@ -7,7 +7,8 @@ from .models import (Ad,User,Category,Region, CustomUser,Image)
 from trans import trans
 from .serializers import (AdSerializer,CategorySerializer,
 	RegionSerializer, AdRegionSerializer, CustomUserSerializer,
-	 AdCreateSerializer, ImageSerializer, Base64ImageField, FileSerializer, ProfileSerializer)
+	 AdCreateSerializer, ImageSerializer, Base64ImageField, FileSerializer, ProfileSerializer,
+	 AdGetSerializer)
 from rest_framework import generics
 from django.shortcuts import render
 import uuid
@@ -82,15 +83,15 @@ class ProfileViewSet(viewsets.ViewSet):
 		return Response(serializer.data)
 
 class AdfilterViewSet(viewsets.ViewSet):
-	permission_classes = (IsAuthenticated,)
-	serializers_class = AdSerializer
+	permission_classes = (AllowAny,)
+	serializers_class = AdGetSerializer
 	def list(self, request, region=None, category=None):
 		queryset = Ad.objects.all()
 		self.regionId = CheckRegion(region)
 		queryset = queryset.filter(region=self.regionId)
 		self.categoryId = CheckCategory(category)
 		queryset = queryset.filter(category=self.categoryId)
-		serializers = AdSerializer(queryset, many=True)
+		serializers = AdGetSerializer(queryset, many=True)
 		return Response(serializers.data)
 
 
@@ -101,7 +102,7 @@ class AdfilterViewSet(viewsets.ViewSet):
 		self.categoryId = CheckCategory(category)
 		queryset =Ad.objects.filter(category= self.categoryId)
 		param = get_object_or_404(queryset, pk=pk)
-		serializers = AdSerializer(param)
+		serializers = AdGetSerializer(param)
 		return Response(serializers.data)
 
 	def destroy(self, request ,region=None, category=None, pk= None):
@@ -115,12 +116,12 @@ class AdfilterViewSet(viewsets.ViewSet):
 
 
 class RegionfilterViewSet(viewsets.ViewSet):
-	permission_classes = (IsAuthenticated,)
+	permission_classes = (AllowAny,)
 	def list(self, request, region=None):
 		queryset = Ad.objects.all()
 		self.regionId = CheckRegion(region)
 		queryset = queryset.filter(region= self.regionId)
-		serializers = AdSerializer(queryset, many=True)
+		serializers = AdGetSerializer(queryset, many=True)
 		return Response(serializers.data)
 
 class TestViewSet(viewsets.ViewSet):

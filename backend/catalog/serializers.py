@@ -53,11 +53,22 @@ class CustomUserSerializer(serializers.ModelSerializer):
 		model = CustomUser
 		fields = ('id','nickname', 'phone_number', 'password')
 
+class AdUserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = CustomUser
+		fields = ('id','nickname', 'phone_number')
 
 class AdSerializer(serializers.ModelSerializer):
 	# images = serializers.StringRelatedField(many = True)
 	images = ImageSerializer(many = True)
-	user = CustomUserSerializer()
+	user = AdUserSerializer()
+	class Meta:
+		model = Ad
+		fields = ('title', 'description', 'region', 'category','price' , 'date_create','id','views','phone_number', 'is_active','user', 'images')
+
+class AdGetSerializer(serializers.ModelSerializer):
+	images = serializers.StringRelatedField(many = True)
+	user = AdUserSerializer()
 	class Meta:
 		model = Ad
 		fields = ('title', 'description', 'region', 'category','price' , 'date_create','id','views','phone_number', 'is_active','user', 'images')
