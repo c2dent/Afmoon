@@ -1,15 +1,12 @@
-  <template>
+<template>
   <transition>
-    <div class="modal_wrap" v-if="registrationOpened">
-      <div class="modal_background" @click="closeModalRegistration"></div>
+    <div class="modal_wrap" v-if="validateOpened">
+      <div class="modal_background" @click="closeModalValidate"></div>
       <div class="modal_content">
-        <h1>Регистрация</h1>
-        <form action="registation" @submit.prevent ="CloseRegisAndCallModalValidate">
-          <input type="text" placeholder="Имя" class="nickname" required>
-          <input type="tel" placeholder="номер телефона" class="number" required>
-          <input type="password" placeholder="Пароль" class="password1" required>
-          <input type="password" placeholder="Потвеждения пароля" class="password2" required>
-          <button class="registration" type="submit">Регистрация</button><br>
+        <h1>Потверждение номера</h1>
+        <form action="validate">
+          <input type="text" placeholder="111-111" class="code_validate" v-model="code_validate" required >
+          <button class="validate" type="submit">Потвердить</button><br>
         </form>
       </div>
     </div>
@@ -19,19 +16,17 @@
 // eslint-disable-next-line
 /* eslint-disable */
 export default {
-  name: 'registration',
+  name: 'validate',
   props: {
-    registrationOpened : {
+    validateOpened : {
       type : Boolean,
     }
   },
   methods: {
-    closeModalRegistration () {
+    closeModalValidate () {
       this.$emit('close')
     },
-    CloseRegisAndCallModalValidate (){
-      this.$emit('OpenedValidate')
-    }
+
   }
 }
 </script>
@@ -82,12 +77,12 @@ input:focus{
   border:  2px solid green;
   padding: 8px;
 }
-.registration{
+.validate{
   font-size: 22px;
   padding: 8px 80px;
   margin: 20px 0px;
 }
-.registration:hover{
+.validate:hover{
   padding: 7px 80px;
 }
 .modal_content a{

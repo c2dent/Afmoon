@@ -7,7 +7,7 @@ from .models import (Ad,User,Category,Region, CustomUser,Image)
 from trans import trans
 from .serializers import (AdSerializer,CategorySerializer,
 	RegionSerializer, AdRegionSerializer, CustomUserSerializer,
-	 AdCreateSerializer, ImageSerializer, Base64ImageField, FileSerializer, ProfileSerializer,
+	 AdCreateSerializer, ImageSerializer, Base64ImageField,  ProfileSerializer,
 	 AdGetSerializer)
 from rest_framework import generics
 from django.shortcuts import render
@@ -65,7 +65,7 @@ class CreateAd(viewsets.ModelViewSet):
 
 # class UserLogoutView(views.APIView):
 # 	permission_classes = (IsAuthenticated)
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated,])
 def UserLogout(request, *args, **kwargs):
 	user = request.user
@@ -83,7 +83,7 @@ class ProfileViewSet(viewsets.ViewSet):
 		return Response(serializer.data)
 
 class AdfilterViewSet(viewsets.ViewSet):
-	permission_classes = (AllowAny,)
+	permission_classes = (IsAuthenticated,)
 	serializers_class = AdGetSerializer
 	def list(self, request, region=None, category=None):
 		queryset = Ad.objects.all()

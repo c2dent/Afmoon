@@ -25,4 +25,4 @@ urlpatterns = [
 	url(r'^accounts/', include('django.contrib.auth.urls')),
 	url(r'^', include(router.urls)),
 	url(r'^test/', TestViewSet.as_view({'get': 'list'})),
-	]
+	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

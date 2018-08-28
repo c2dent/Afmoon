@@ -105,7 +105,7 @@ JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days = 360),
     # 'JWT_GET_USER_SECRET_KEY': 'catalog.models.jwt_get_secret_key',
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    # 'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     }
 

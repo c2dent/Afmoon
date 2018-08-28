@@ -11,27 +11,38 @@
     </div>
     <div id="auth">
       <button type="button" id="regis" @click="show_registration()">Регистрация</button>
-      <registration :registrationOpened="registrationOpened" @close="closeModalRegistration"></registration>
+      <registration :registrationOpened="registrationOpened" @close="closeModalRegistration" @OpenedValidate="show_validate"></registration>
       <button type="button" @click="show_login()">Вход</button>
       <login :loginOpened="loginOpened" @close="closeModalLogin"></login>
+      <validate :validateOpened="validateOpened" @close="closeModalValidate"></validate>
     </div>
+      <p>status : {{ status }}</p>
   </header>
 </template>
 <script>
 import login from './Login.vue'
 import registration from './Registration.vue'
+import validate from './Validate.vue'
 // eslint-disable-next-line
 /* eslint-disable */
+import {mapGetters} from 'vuex'
 export default{
   name: 'header1',
   components: {
     login,
     registration,
+    validate,
+  },
+  computed: {
+    status () {
+        return  this.$store.getters.token
+      },
   },
   data () {
     return {
       loginOpened : false,
-      registrationOpened : false
+      registrationOpened : false,
+      validateOpened : false,
     }
   },
   methods: {
@@ -47,6 +58,13 @@ export default{
     closeModalRegistration () {
       this.registrationOpened = false;
     },
+    show_validate () {
+      this.registrationOpened = false;
+      this.validateOpened = true;
+    },
+    closeModalValidate () {
+      this.validateOpened = false;
+    }
   }
 }
 </script>

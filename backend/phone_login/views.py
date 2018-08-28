@@ -96,7 +96,8 @@ def authenticate_user(request):
         phone_number = request.data['phone_number']
         password = request.data['password']
         try:
-            user = CustomUser.objects.get(phone_number=phone_number, password=password)
+            user = CustomUser.objects.get(phone_number=phone_number)
+            user.check_password(password)
         except CustomUser.DoesNotExist:
             user = None
 

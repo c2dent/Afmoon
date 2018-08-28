@@ -106,8 +106,3 @@ class ProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = CustomUser
 		fields = ('nickname', 'avatar', 'ads', 'region', 'phone_number')
-
-class FileSerializer(serializers.ModelSerializer):
-	class Meta():
-		model = File
-		fields = ('file', 'remark', 'timestamp')

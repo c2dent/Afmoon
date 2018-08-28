@@ -4,11 +4,13 @@
       <div class="modal_background" @click="closeModalLogin"></div>
       <div class="modal_content">
         <h1>Вход</h1>
-        <form action="login">
-          <input type="text" placeholder="Имя пользователя" class="username">
-          <input type="password" placeholder="Пароль" class="password">
-          <button class="login">Вход</button><br>
+        <form action="login" @submit.prevent = "auth">
+          <input type="tel" placeholder="Номер телефона" class="phone_number" v-model="user.phone_number" required>
+          <input type="password" placeholder="Пароль" class="password" required v-model="user.password">
+          <button class="login" type="submit">Вход</button><br>
           <a href="#">Забыли пароль ?</a>
+          <p>phone : {{ user.phone_number }}</p>
+          <p>password : {{ user.password }}</p>
         </form>
       </div>
     </div>
@@ -17,16 +19,29 @@
 <script>
 // eslint-disable-next-line
 /* eslint-disable */
+// import { mapActions } from 'vuex  '
 export default {
   name: 'login',
   props: {
     loginOpened : {
       type : Boolean,
+    },
+  },
+  data () {
+    return {
+     user : {
+      phone_number : "",
+      password : ""
+     }
     }
   },
   methods: {
+    // ...mapActions(['loginUser']),
     closeModalLogin () {
       this.$emit('close')
+    },
+    auth () {
+      this.$store.dispatch('loginUser', this.user)
     }
   }
 }

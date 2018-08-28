@@ -22,6 +22,7 @@
             <p>
               {{ ad.date_create }}
             </p>
+            <p>status : {{ status }}</p>
           </div>
         </div>
       </li>
@@ -42,6 +43,9 @@ import {mapGetters} from 'vuex'
     computed : {
       ads () {
         return  this.$store.getters.ads
+      },
+      status () {
+        return  this.$store.getters.token
       },
       region () {
         return this.$route.params.region
