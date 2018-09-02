@@ -3,13 +3,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { Ad } from '../api/ads'
 import { User } from '../api/user'
+import axios from 'axios'
 import {
   ADD_AD,
   REMOVE_AD,
   SET_ADS,
   AUTH_REQUEST,
   AUTH_SUCCESS,
-  AUTH_ERROR
+  AUTH_ERROR,
+  SET_OWNER,
+  AUTH_LOGOUT
 } from './mutation-types.js'
 
 // eslint-disable-next-line
@@ -20,15 +23,17 @@ Vue.use(Vuex)
 // Состояние
 const state = {
   ads: [] , // список заметок
-  token: localStorage.getItem('csrftoken') || '',
+  token: localStorage.getItem('user-token') || '',
   status: '',
+  profile : {}
 }
 
 // Геттеры
 const getters = {
   ads: state => state.ads  ,// получаем список заметок из состояния
   isAuthenticated: state => !!state.token,
-  authStatus: state => state.status
+  authStatus: state => state.status,
+  profile : state => state.profile
 }
 
 // Мутации
@@ -47,6 +52,9 @@ const mutations = {
   [SET_ADS] (state, { ads }) {
     state.ads = ads
   },
+  [SET_OWNER] (state , { profile }) {
+    state.profile = profile
+  },
   [AUTH_REQUEST] (state) {
     state.status = 'loading,'
   },
@@ -56,6 +64,9 @@ const mutations = {
   },
   [AUTH_ERROR] (state) {
     state.status = 'error'
+  },
+  [AUTH_LOGOUT] (state) {
+    state.status = undefined
   }
 }
 
@@ -73,18 +84,23 @@ const actions = {
     })
   },
   getAds ({ commit }, param) {
-    console.log('men seni soyyan')
     Ad.list(param[0],param[1],param[2]).then(ads => {
       commit(SET_ADS, { ads })
     })
   },
+  getOwner ({ commit }) {
+    User.owner().then(profile => {
+      commit(SET_OWNER, { profile })
+      console.log(response)
+    })
+  },
   loginUser ({commit}, user) {
-    commit(AUTH_REQUEST)
     User.login(user).then(resp => {
       const token = resp.data.token
-      localStorage.setItem('user-token', token)
+      commit(AUTH_REQUEST)
       console.log(resp)
-      axios.defaults.headers.common['Authorization'] = token
+      localStorage.setItem('user-token', resp.data.token)
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' +  token
       commit(AUTH_SUCCESS, {token})
       return resp
     } ).catch(err => {
@@ -93,6 +109,17 @@ const actions = {
       return err
     })
   },
+  logout ({commit}) {
+    return new Promise ((resolve, reject) => {
+      commit(AUTH_LOGOUT)
+      localStorage.removeItem('user-token') // clear your user's token from localstorage
+      resolve()
+    })
+  },
+  loginer ({commit}) {
+    commit(AUTH_REQUEST)
+    localStorage.setItem('blala ', 'bloagfd')
+  }
 }
 
 export default new Vuex.Store({

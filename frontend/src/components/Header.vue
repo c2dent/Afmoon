@@ -1,7 +1,7 @@
 <template>
   <header>
     <div id="logo">
-      <img src="../assets/greenLogo.png" alt="Logo"><h2>AFMOON</h2>
+      <a href="http://localhost:8080/#/turkmenistan/"><img src="../assets/greenLogo.png" alt="Logo"><h2>AFMOON</h2></a>
     </div>
     <div id="search">
       <form>
@@ -9,14 +9,23 @@
         <button type="submit">Искать</button>
       </form>
     </div>
-    <div id="auth">
+    <div class="user_profile" v-if="authorization">
+      <a href="http://localhost:8080/#/profile/">
+        <section id="user_avatar">
+          <img :src="'http://127.0.0.1:8000' + profile.avatar">
+        </section>
+        <section id="user_nickname">
+          <h4>{{ profile.nickname }}</h4>
+        </section>
+      </a>
+    </div>
+    <div id="auth" v-else>
       <button type="button" id="regis" @click="show_registration()">Регистрация</button>
       <registration :registrationOpened="registrationOpened" @close="closeModalRegistration" @OpenedValidate="show_validate"></registration>
       <button type="button" @click="show_login()">Вход</button>
       <login :loginOpened="loginOpened" @close="closeModalLogin"></login>
       <validate :validateOpened="validateOpened" @close="closeModalValidate"></validate>
     </div>
-      <p>status : {{ status }}</p>
   </header>
 </template>
 <script>
@@ -35,14 +44,18 @@ export default{
   },
   computed: {
     status () {
-        return  this.$store.getters.token
+        return  this.$store.getters.authStatus
       },
+      profile () {
+        return this.$store.getters.profile
+      }
   },
   data () {
     return {
       loginOpened : false,
       registrationOpened : false,
       validateOpened : false,
+      authorization : false,
     }
   },
   methods: {
@@ -64,6 +77,13 @@ export default{
     },
     closeModalValidate () {
       this.validateOpened = false;
+    }
+  },
+  beforeMount () {
+    const token = localStorage.getItem('user-token')
+    if (token) {
+      this.$store.dispatch('getOwner',)
+      this.authorization = true
     }
   }
 }
@@ -111,5 +131,18 @@ header {
 }
 #regis{
   margin-right: 5px;
+}
+.user_profile {
+  margin-right: 20px;
+}
+.user_profile a {
+  display: flex;
+  align-items: center;
+}
+#user_avatar img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 2px;
 }
 </style>

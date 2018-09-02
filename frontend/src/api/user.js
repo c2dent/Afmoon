@@ -9,7 +9,6 @@ export const User = {
 		})
 	},
 	login (user) {
-		console.log('phone_number:', user.phone_number)
 		return HTTP.post('/phone_login/login/', { 'phone_number': String(user.phone_number), 'password': String(user.password) }).
 		then(response => {
 			return response

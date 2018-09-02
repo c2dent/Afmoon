@@ -49,11 +49,4 @@ export default {
 /* eslint-disable */
 </script>
 <style>
-li{
-background-color: white;
-border: 1px solid black;
-border-radius: 5px;
-margin-bottom: 5px;
-text-decoration: none;
-}
 </style>

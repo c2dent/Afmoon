@@ -22,7 +22,6 @@
             <p>
               {{ ad.date_create }}
             </p>
-            <p>status : {{ status }}</p>
           </div>
         </div>
       </li>
@@ -45,7 +44,7 @@ import {mapGetters} from 'vuex'
         return  this.$store.getters.ads
       },
       status () {
-        return  this.$store.getters.token
+        return  this.$store.getters.status
       },
       region () {
         return this.$route.params.region
@@ -60,11 +59,11 @@ import {mapGetters} from 'vuex'
   }
 </script>
 <style>
-ul {
+#content ul {
   max-width: 750px;
   padding: 0px;
 }
-li {
+#content li {
   padding: 5px;
   list-style-type: none;
   border: 1px solid black;

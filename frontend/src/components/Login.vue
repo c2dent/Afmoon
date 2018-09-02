@@ -4,7 +4,7 @@
       <div class="modal_background" @click="closeModalLogin"></div>
       <div class="modal_content">
         <h1>Вход</h1>
-        <form action="login" @submit.prevent = "auth">
+        <form action="#" @submit = "auth">
           <input type="tel" placeholder="Номер телефона" class="phone_number" v-model="user.phone_number" required>
           <input type="password" placeholder="Пароль" class="password" required v-model="user.password">
           <button class="login" type="submit">Вход</button><br>
@@ -41,7 +41,12 @@ export default {
       this.$emit('close')
     },
     auth () {
-      this.$store.dispatch('loginUser', this.user)
+      this.$store.dispatch('loginUser', this.user).then(() => {
+        this.$router.push('/turkmenistan') 
+      })
+    },
+    login () {
+      this.$store.dispatch('loginer')
     }
   }
 }
