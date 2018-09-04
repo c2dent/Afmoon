@@ -16,7 +16,7 @@
           <p>Пароль :</p><button>Изменить</button>
         </li>
         <li class="logout">
-          <form action="#" @submit="logout">
+          <form @submit.prevent="logout">
             <button type="submit">Выйти</button>
           </form>
         </li>
@@ -88,8 +88,9 @@ export default {
     },
     logout () {
       this.$store.dispatch('logout',).then(() => {
-        this.$router.push(/turkmenistan/)
+        this.$router.push('/turkmenistan/')
       })
+      location.reload()
     }
   },
   beforeMount () {

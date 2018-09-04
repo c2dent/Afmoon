@@ -10,5 +10,7 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS'
 export const AUTH_ERROR = 'AUTH_ERROR'
 export const SET_OWNER = 'SET_OWNER'
 export const AUTH_LOGOUT = 'AUTH_LOGOUT'
+export const REGIS_USER = 'REGIS_USER'
+export const VALID_USER = 'VALID_USER'
 // eslint-disable-next-line
 /* eslint-disable */

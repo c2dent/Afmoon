@@ -26,8 +26,8 @@ from .serializers import (
 from .utils import user_detail
 from twilio.rest import Client
 
-account_sid = "AC560c1472993104ce842be8d400d12402"
-auth_token  = "8c4e3247cdf3744a49160bf3acc9af64"
+account_sid = "AC9f5729ab39d0e9b8e50f0e8672469fa1"
+auth_token  = "925d4f8207278102438f4f920be91513"
 client = Client(account_sid, auth_token)
     
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -47,13 +47,12 @@ class GenerateOTP(CreateAPIView):
             'otp' : otp,
             'password': request.data.get('password'),
             'nickname': request.data.get('nickname'),
-            } 
-            # phone_token.update({'otp': token})
+            }
+
             serializer = PhoneTokenCreateSerializer(data= phone_token)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(phone_number, status=status.HTTP_201_CREATED)
-    
 
 
 class Registration(CreateAPIView):
@@ -72,20 +71,23 @@ class Registration(CreateAPIView):
                 timestamp__gte=timestamp_difference
                 )
             user = {
-            phone_number : phone_token.phone_number,
-            # 'password' : phone_token.password,
+            'phone_number' : phone_token.phone_number,
+            'password' : phone_token.password,
             'nickname' : phone_token.nickname
             }
-
         except Exception as e :
             raise e
 
-        # user = request.data
-        serializer = CustomUserSerializer(data=user)
-        serializer.set_password(phone_token.password)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(request.data, status=status.HTTP_201_CREATED)
+        serialized = CustomUserSerializer(data=user)
+        if serialized.is_valid():
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+        # # serializer.set_password(phone_token.password)
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save()
+        # return Response(request.data, status=status.HTTP_201_CREATED)
 
 
 

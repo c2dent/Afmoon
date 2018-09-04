@@ -4,11 +4,11 @@
       <div class="modal_background" @click="closeModalRegistration"></div>
       <div class="modal_content">
         <h1>Регистрация</h1>
-        <form action="registation" @submit.prevent ="CloseRegisAndCallModalValidate">
-          <input type="text" placeholder="Имя" class="nickname" required>
-          <input type="tel" placeholder="номер телефона" class="number" required>
-          <input type="password" placeholder="Пароль" class="password1" required>
-          <input type="password" placeholder="Потвеждения пароля" class="password2" required>
+        <form @submit.prevent ="CloseRegisAndCallModalValidate">
+          <input type="text" placeholder="Имя" class="nickname" required v-model="user_data.nickname">
+          <input type="tel" placeholder="номер телефона" class="number" required v-model="user_data.phone_number">
+          <input type="password" placeholder="Пароль" class="password1" required v-model="user_data.password1">
+          <input type="password" placeholder="Потвеждения пароля" class="password2" required v-model="user_data.password2">
           <button class="registration" type="submit">Регистрация</button><br>
         </form>
       </div>
@@ -25,12 +25,24 @@ export default {
       type : Boolean,
     }
   },
+  data () {
+    return {
+        user_data: {
+          nickname: '',
+          phone_number: '',
+          password1: '',
+          password2: ''
+      }
+    }
+  },
   methods: {
     closeModalRegistration () {
       this.$emit('close')
     },
-    CloseRegisAndCallModalValidate (){
-      this.$emit('OpenedValidate')
+    CloseRegisAndCallModalValidate () {
+      this.$store.dispatch('create_user', this.user_data).then(resp => {
+        this.$emit('OpenedValidate')
+      })
     }
   }
 }

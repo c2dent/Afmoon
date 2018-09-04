@@ -12,7 +12,8 @@ import {
   AUTH_SUCCESS,
   AUTH_ERROR,
   SET_OWNER,
-  AUTH_LOGOUT
+  AUTH_LOGOUT,
+  REGIS_USER
 } from './mutation-types.js'
 
 // eslint-disable-next-line
@@ -25,7 +26,8 @@ const state = {
   ads: [] , // список заметок
   token: localStorage.getItem('user-token') || '',
   status: '',
-  profile : {}
+  profile : {},
+  phone_number : ''
 }
 
 // Геттеры
@@ -33,7 +35,8 @@ const getters = {
   ads: state => state.ads  ,// получаем список заметок из состояния
   isAuthenticated: state => !!state.token,
   authStatus: state => state.status,
-  profile : state => state.profile
+  profile : state => state.profile,
+  phone_number : state => state.phone_number
 }
 
 // Мутации
@@ -67,6 +70,9 @@ const mutations = {
   },
   [AUTH_LOGOUT] (state) {
     state.status = undefined
+  },
+  [REGIS_USER] (state, {phone_number}) {
+    state.phone_number = phone_number
   }
 }
 
@@ -115,6 +121,27 @@ const actions = {
       localStorage.removeItem('user-token') // clear your user's token from localstorage
       resolve()
     })
+  },
+  create_user ({commit}, user_data) {
+    User.create_user(user_data).then(response => {
+      const phone_number = response.data
+      localStorage.setItem('phone_number', phone_number)
+      console.log(response)
+      commit(REGIS_USER, {phone_number})
+      return response
+    }).catch(err => {
+      console.log(err)
+      return err
+    })
+  },
+  validate_user (state, user_valid) {
+    User.validate_user ({'phone_number': localStorage.getItem('phone_number'), 'otp': user_valid.otp}).then(response => {
+      console.log(response)
+      return response
+    }).catch (error => {
+      console.log(error)
+      return error
+    }) 
   },
   loginer ({commit}) {
     commit(AUTH_REQUEST)

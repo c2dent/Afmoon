@@ -4,10 +4,12 @@
       <div class="modal_background" @click="closeModalValidate"></div>
       <div class="modal_content">
         <h1>Потверждение номера</h1>
-        <form action="validate">
-          <input type="text" placeholder="111-111" class="code_validate" v-model="code_validate" required >
+        <form @submit="validation">
+          <input type="text" placeholder="111-111" class="code_validate" v-model="user_valid.otp" required >
           <button class="validate" type="submit">Потвердить</button><br>
         </form>
+        <span>phone_number : </span><span>{{ user_valid.phone_number }}</span>
+        <span>otp :</span><span>{{user_valid.otp }}</span>
       </div>
     </div>
   </transition>
@@ -15,6 +17,7 @@
 <script>
 // eslint-disable-next-line
 /* eslint-disable */
+import {mapGetters} from 'vuex'
 export default {
   name: 'validate',
   props: {
@@ -22,11 +25,28 @@ export default {
       type : Boolean,
     }
   },
+  computed: {
+    phone_number () {
+      return this.$store.getters.phone_number
+    }
+  },
+  data () {
+    return {
+      user_valid: {
+        otp: '',
+        phone_number: this.phone_number
+      }
+    }
+  },
   methods: {
     closeModalValidate () {
       this.$emit('close')
     },
-
+    validation () {
+      this.$store.dispatch('validate_user', this.user_valid).then(() => {
+        this.$router.push('/')
+      })
+    }
   }
 }
 </script>

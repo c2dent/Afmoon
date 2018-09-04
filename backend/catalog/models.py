@@ -24,7 +24,6 @@ class Region(MPTTModel):
 
 class CustomUser(User):
 	region = TreeManyToManyField(Region, blank=True, related_name='user_region')
-	jwt_secret = models.UUIDField(default=uuid.uuid4)
 	def __str__(self):
 		return self.phone_number
 

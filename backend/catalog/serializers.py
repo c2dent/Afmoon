@@ -53,6 +53,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
 		model = CustomUser
 		fields = ('id','nickname', 'phone_number', 'password')
 
+	def create(self, validated_data):
+		user = super(CustomUserSerializer, self).create(validated_data)
+		user.set_password(validated_data['password'])
+		user.save()
+		return user
+
 class AdUserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = CustomUser
