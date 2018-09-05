@@ -2,7 +2,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import  (AdfilterViewSet, RegionfilterViewSet,TestViewSet, CustomUserViewSet, CreateAd, 
-	ImageViewSet, UserLogout, ProfileViewSet)
+	ImageViewSet, UserLogout, ProfileViewSet, RegionViewSet, CategoryViewSet)
 from django.conf.urls import url
 from rest_framework_nested import routers
 from django.conf.urls import include
@@ -14,6 +14,8 @@ router = routers.SimpleRouter()
 router.register(r'aditem', CreateAd, base_name='ad')
 router.register(r'profile' , ProfileViewSet, base_name='profile')
 router.register(r'users', CustomUserViewSet, base_name='ads')
+router.register(r'region', RegionViewSet, base_name='reg')
+router.register(r'category', CategoryViewSet, base_name='cat')
 router.register(r'(?P<region>[^/.]+)', RegionfilterViewSet, base_name='ads')
 router.register(r'(?P<region>[^/.]+)/(?P<category>[^/.]+)' , AdfilterViewSet, base_name='ads')
 

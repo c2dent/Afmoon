@@ -2,9 +2,14 @@
 /* eslint-disable */
 
 import { HTTP } from './common'
-export const Regions = {
-  list () {
-    return HTTP.get('/ads/1/region/').then(response => {
+export const Navigations = {
+  list_region () {
+    return HTTP.get('/region/').then(response => {
+      return response.data
+    })
+  },
+  list_category () {
+    return HTTP.get('/category/').then(response => {
       return response.data
     })
   }

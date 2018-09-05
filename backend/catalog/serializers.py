@@ -81,18 +81,19 @@ class AdGetSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-	ad = AdSerializer(many=True)
-	child = RecursiveField(allow_null=True,required=False,many=True)
+	# ad = AdSerializer(many=True)
+	# child = RecursiveField(allow_null=True,required=False,many=True)
 	class Meta:
 		model = Category
-		fields = ('name','id','ad','child','lft','rght')
+		# fields = ('name','id','ad','child','lft','rght')
+		fields = ('name','id')
 	
 class RegionSerializer(serializers.ModelSerializer):
-	children = RecursiveField(allow_null=True, required=False,many=True)
+	# children = RecursiveField(allow_null=True, required=False,many=True)
 
 	class Meta:
 		model = Region
-		fields = ('name','id' , 'children')
+		fields = ('name','id')
 
 class AdRegionSerializer(serializers.ModelSerializer):
 	children = RecursiveField(allow_null=True,required=False,many=True)

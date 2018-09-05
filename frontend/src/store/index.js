@@ -3,6 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { Ad } from '../api/ads'
 import { User } from '../api/user'
+import { Navigations } from '../api/region'
 import axios from 'axios'
 import {
   ADD_AD,
@@ -13,7 +14,9 @@ import {
   AUTH_ERROR,
   SET_OWNER,
   AUTH_LOGOUT,
-  REGIS_USER
+  REGIS_USER,
+  SET_REGION,
+  SET_CATEGOR
 } from './mutation-types.js'
 
 // eslint-disable-next-line
@@ -27,12 +30,16 @@ const state = {
   token: localStorage.getItem('user-token') || '',
   status: '',
   profile : {},
-  phone_number : ''
+  phone_number : '',
+  regions : [],
+  categories : []
 }
 
 // Геттеры
 const getters = {
   ads: state => state.ads  ,// получаем список заметок из состояния
+  regions : state => state.regions,
+  categories : state => state.categories,
   isAuthenticated: state => !!state.token,
   authStatus: state => state.status,
   profile : state => state.profile,
@@ -73,6 +80,12 @@ const mutations = {
   },
   [REGIS_USER] (state, {phone_number}) {
     state.phone_number = phone_number
+  },
+  [SET_REGION] (state, {reg_data}) {
+    state.regions = reg_data
+  },
+  [SET_CATEGOR] (state, {cat_data}) {
+    state.categories = cat_data
   }
 }
 
@@ -142,6 +155,18 @@ const actions = {
       console.log(error)
       return error
     }) 
+  },
+  region ({commit}) {
+    Navigations.list_region().then(response => {
+      const reg_data = response
+      commit(SET_REGION, {reg_data})
+    })
+  },
+  category ({commit}) {
+    Navigations.list_category().then(response => {
+      const cat_data = response
+      commit(SET_CATEGOR, {cat_data})
+    })
   },
   loginer ({commit}) {
     commit(AUTH_REQUEST)

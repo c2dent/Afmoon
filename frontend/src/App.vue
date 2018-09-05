@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <header1></header1>
+    <navigator></navigator>
     <router-view/>
     <footer1></footer1>
   </div>
@@ -8,12 +9,14 @@
 <script src="https://unpkg.com/vue"></script>
 <script>
 import header1 from './components/Header.vue'
+import navigator from './components/Navigator.vue'
 import footer1 from './components/Footer.vue'
 export default {
   name: 'App',
   components: {
     header1,
-    footer1
+    footer1,
+    navigator
   }
 }
 </script>

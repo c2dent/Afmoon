@@ -144,6 +144,21 @@ class CustomUserViewSet(viewsets.ViewSet):
 		serializers = CustomUserSerializer(param)
 		return Response(serializers.data)
 
+class RegionViewSet(viewsets.ViewSet):
+	permission_classes = (AllowAny,)
+	def list(self, request):
+		queryset = Region.objects.all()
+		serializers = RegionSerializer(queryset, many=True)
+		return Response(serializers.data)
+
+class CategoryViewSet(viewsets.ViewSet):
+	permission_classes = (AllowAny,)
+	def list(self, request):
+		queryset = Category.objects.all()
+		serializers = CategorySerializer(queryset, many=True)
+		return Response(serializers.data)
+
+
 class ImageViewSet(viewsets.ModelViewSet):
 	permission_classes = (AllowAny,)
 	queryset = Image.objects.all()

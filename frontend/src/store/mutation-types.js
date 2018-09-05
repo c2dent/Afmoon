@@ -12,5 +12,7 @@ export const SET_OWNER = 'SET_OWNER'
 export const AUTH_LOGOUT = 'AUTH_LOGOUT'
 export const REGIS_USER = 'REGIS_USER'
 export const VALID_USER = 'VALID_USER'
+export const SET_REGION = 'SET_REGION'
+export const SET_CATEGOR = 'SET_CATEGOR'
 // eslint-disable-next-line
 /* eslint-disable */
